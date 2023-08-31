@@ -102,7 +102,11 @@ public extension UITableView {
                 }
 
                 if !changeset.elementUpdated.isEmpty {
+                  if #available(iOS 15.0, *) {
+                    reconfigureRows(at: changeset.elementUpdated.map { IndexPath(row: $0.element, section: $0.section) })
+                  } else {
                     reloadRows(at: changeset.elementUpdated.map { IndexPath(row: $0.element, section: $0.section) }, with: reloadRowsAnimation())
+                  }
                 }
 
                 for (source, target) in changeset.elementMoved {
